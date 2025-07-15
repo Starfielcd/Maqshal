@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // <--- Importación necesaria para SharedPreferences
-import 'package:intento3/features/auth/screens/login_screen.dart'; // <--- Importación necesaria para LoginScreen.
-                                                                //      Asegúrate que esta RUTA sea CORRECTA para tu LoginScreen.
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intento3/features/auth/screens/login_screen.dart';
 
+// ✅ Importa tus nuevas pantallas
+import 'mecanico_mantenimiento_screen.dart';
+import 'mecanico_historial_screen.dart';
+import 'mecanico_almacen_screen.dart';
 
 class MecanicoDashboardScreen extends StatelessWidget {
-  // Esta es la ÚNICA declaración de _buildActionButton que debe existir.
-  // La he colocado aquí para que esté dentro de la clase pero fuera del método build.
-  Widget _buildActionButton(BuildContext context, {required IconData icon, required String label}) {
+  const MecanicoDashboardScreen({super.key});
+
+  // BOTÓN CIRCULAR BLANCO
+  Widget _buildActionButton(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
-          onTap: () {
-            // Lógica para el botón (puedes agregar navegación aquí en el futuro)
-            print('Botón $label presionado'); // Solo para depuración
-          },
+          onTap: onTap,
           child: CircleAvatar(
             radius: 50,
             backgroundColor: Colors.white,
-            child: Icon(icon, size: 60, color: Colors.blueGrey[800]),
+            child: Icon(icon, size: 48, color: Colors.black),
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           label,
-          style: TextStyle(
+          textAlign: TextAlign.center,
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -33,18 +36,15 @@ class MecanicoDashboardScreen extends StatelessWidget {
     );
   }
 
-  // Función para cerrar sesión
+  // LOGOUT
   Future<void> _logout(BuildContext context) async {
-    // 1. Limpiar datos de sesión (ej. token de usuario)
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear(); // Esto borrará todas las preferencias guardadas por la app.
-                         // Si solo quieres borrar un token específico, usa await prefs.remove('nombre_de_tu_token');
+    await prefs.clear();
 
-    // 2. Navegar a la pantalla de inicio de sesión
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => LoginScreen()),
-      (Route<dynamic> route) => false, // Elimina todas las rutas anteriores para que no se pueda volver atrás.
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+      (Route<dynamic> route) => false,
     );
   }
 
@@ -52,21 +52,19 @@ class MecanicoDashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Colores de la AppBar y BottomNavigationBar
-        backgroundColor: const Color.fromARGB(255, 38, 50, 56), // Un tono oscuro para la AppBar
+        backgroundColor: const Color.fromARGB(255, 38, 50, 56),
         elevation: 0,
         title: Row(
           children: [
-            // Icono del logo y texto "MaqCSHAL MineControl"
             Image.asset(
-              'assets/images/maquinaria.jpg', // Asegúrate de que esta ruta sea correcta y que la imagen esté en pubspec.yaml
+              'assets/images/maquinaria.jpg',
               height: 40,
               fit: BoxFit.cover,
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'MaqCSHAL',
                   style: TextStyle(
@@ -84,62 +82,8 @@ class MecanicoDashboardScreen extends StatelessWidget {
                 ),
               ],
             ),
-            Spacer(),
-            // Barra de búsqueda
-            Container(
-              width: 120,
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'buscar...',
-                  hintStyle: TextStyle(color: Colors.white70),
-                  prefixIcon: Icon(Icons.search, color: Colors.white),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: OutlineInputBorder( // Necesario para el estado normal
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder( // Opcional, para cuando el campo está enfocado
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.yellow),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10)
-                ),
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            SizedBox(width: 8),
-            // Icono de notificación
-            Stack(
-              children: [
-                Icon(Icons.notifications, color: Colors.red, size: 30),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    constraints: BoxConstraints(
-                      minWidth: 12,
-                      minHeight: 12,
-                    ),
-                    child: Text(
-                      '!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 8,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                )
-              ],
-            ),
+            const Spacer(),
+            const Icon(Icons.notifications, color: Colors.red, size: 30),
           ],
         ),
       ),
@@ -151,49 +95,89 @@ class MecanicoDashboardScreen extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
           ),
-          Column(
-            children: [
-              SizedBox(height: 20),
-              Text(
-                'BIENVENIDO',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'MECANICO',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildActionButton( // Llamando a la función _buildActionButton
-                    context,
-                    icon: Icons.build_circle,
-                    label: 'MANTENIMIENTO',
+          Container(
+            color: Colors.black.withOpacity(0.4),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                const Text(
+                  'BIENVENIDO',
+                  style: TextStyle(
+                    color: Colors.amber,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  _buildActionButton( // Llamando a la función _buildActionButton
-                    context,
-                    icon: Icons.history,
-                    label: 'HISTORIAL MECÁNICO',
+                ),
+                const Text(
+                  'MECÁNICO',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: 30),
+                // GRID DE OPCIONES
+                Expanded(
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                    children: [
+                      _buildActionButton(
+                        context,
+                        icon: Icons.build_circle,
+                        label: 'MANTENIMIENTO',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const MecanicoMantenimientoScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      _buildActionButton(
+                        context,
+                        icon: Icons.history,
+                        label: 'HISTORIAL MECÁNICO',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const MecanicoHistorialScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      _buildActionButton(
+                        context,
+                        icon: Icons.warehouse,
+                        label: 'ALMACÉN',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const MecanicoAlmacenScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 38, 50, 56), // Un tono oscuro para la BottomNavigationBar
-        selectedItemColor: Colors.white, // Los iconos/texto seleccionados serán blancos
-        unselectedItemColor: Colors.white70, // Los no seleccionados serán un blanco tenue
+        backgroundColor: const Color.fromARGB(255, 38, 50, 56),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -205,7 +189,7 @@ class MecanicoDashboardScreen extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.logout),
-            label: 'Cerrar Sesion',
+            label: 'Cerrar Sesión',
           ),
         ],
         onTap: (index) {
@@ -217,7 +201,7 @@ class MecanicoDashboardScreen extends StatelessWidget {
               // Lógica para Acerca de
               break;
             case 2:
-              _logout(context); // Llama a la función de cerrar sesión
+              _logout(context);
               break;
           }
         },

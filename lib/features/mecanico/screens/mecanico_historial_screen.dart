@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
 
-class OperarioMaquinariaScreen extends StatelessWidget {
-  const OperarioMaquinariaScreen({super.key});
+class MecanicoHistorialScreen extends StatelessWidget {
+  const MecanicoHistorialScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de Maquinarias'),
+        title: const Text('Historial Mecánico'),
         backgroundColor: const Color.fromARGB(255, 38, 50, 56),
       ),
       body: Stack(
         children: [
-          // Imagen de fondo con fallback
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/maquinaria.jpg',
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey.shade800,
-                  child: const Center(
-                    child: Icon(Icons.broken_image, color: Colors.white54, size: 80),
-                  ),
-                );
-              },
-            ),
+          Image.asset(
+            'assets/images/maquinaria.jpg',
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
           Container(
             color: Colors.black.withOpacity(0.4),
@@ -36,16 +27,16 @@ class OperarioMaquinariaScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'MAQUINARIAS DISPONIBLES',
+                  'HISTORIAL DE MANTENIMIENTOS',
                   style: TextStyle(
                     color: Colors.amber,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 8),
                 const Text(
-                  'Consulta las maquinarias disponibles para tu uso:',
+                  'Consulta el historial y estado de las maquinarias:',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -63,7 +54,7 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: ListTile(
-                          leading: const Icon(Icons.precision_manufacturing, color: Colors.black),
+                          leading: const Icon(Icons.history, color: Colors.black),
                           title: Text(
                             'Maquinaria ${index + 1}',
                             style: const TextStyle(
@@ -72,17 +63,20 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                             ),
                           ),
                           subtitle: const Text(
-                            'Estado: Disponible',
+                            'Último mantenimiento: 12/06/2025\nEstado: Operativa',
                             style: TextStyle(color: Colors.black54),
                           ),
+                          isThreeLine: true,
                           trailing: IconButton(
                             icon: const Icon(Icons.info_outline, color: Colors.black),
                             onPressed: () {
                               showDialog(
                                 context: context,
                                 builder: (_) => AlertDialog(
-                                  title: const Text('Detalle de Maquinaria'),
-                                  content: Text('Información de la Maquinaria ${index + 1}.'),
+                                  title: const Text('Detalle de Mantenimiento'),
+                                  content: Text(
+                                    'Información detallada del mantenimiento de la Maquinaria ${index + 1}.',
+                                  ),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),

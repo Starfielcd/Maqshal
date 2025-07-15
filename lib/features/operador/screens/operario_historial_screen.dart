@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
 
-class OperarioMaquinariaScreen extends StatelessWidget {
-  const OperarioMaquinariaScreen({super.key});
+class OperarioHistorialScreen extends StatelessWidget {
+  const OperarioHistorialScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de Maquinarias'),
+        title: const Text('Histórico de Uso'),
         backgroundColor: const Color.fromARGB(255, 38, 50, 56),
       ),
       body: Stack(
         children: [
-          // Imagen de fondo con fallback
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/maquinaria.jpg',
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey.shade800,
-                  child: const Center(
-                    child: Icon(Icons.broken_image, color: Colors.white54, size: 80),
-                  ),
-                );
-              },
-            ),
+          Image.asset(
+            'assets/images/maquinaria.jpg',
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
           Container(
             color: Colors.black.withOpacity(0.4),
@@ -36,7 +27,7 @@ class OperarioMaquinariaScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'MAQUINARIAS DISPONIBLES',
+                  'HISTÓRICO DE USO',
                   style: TextStyle(
                     color: Colors.amber,
                     fontSize: 24,
@@ -45,7 +36,7 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Consulta las maquinarias disponibles para tu uso:',
+                  'Consulta el historial de uso de maquinarias:',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -53,26 +44,26 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: 6,
+                  child: ListView.separated(
+                    itemCount: 5,
+                    separatorBuilder: (_, __) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {
-                      return Card(
-                        color: Colors.white.withOpacity(0.9),
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        shape: RoundedRectangleBorder(
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.9),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: ListTile(
-                          leading: const Icon(Icons.precision_manufacturing, color: Colors.black),
+                          leading: const Icon(Icons.history, color: Colors.black),
                           title: Text(
-                            'Maquinaria ${index + 1}',
+                            'Registro ${index + 1}',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
                           ),
                           subtitle: const Text(
-                            'Estado: Disponible',
+                            'Fecha: 2025-07-13\nTurno: Mañana\nOperador: Juan Pérez',
                             style: TextStyle(color: Colors.black54),
                           ),
                           trailing: IconButton(
@@ -81,8 +72,9 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (_) => AlertDialog(
-                                  title: const Text('Detalle de Maquinaria'),
-                                  content: Text('Información de la Maquinaria ${index + 1}.'),
+                                  title: const Text('Detalle del Registro'),
+                                  content: Text(
+                                      'Más información del Registro ${index + 1}. Aquí puedes poner detalles extendidos.'),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),

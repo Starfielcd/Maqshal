@@ -1,61 +1,46 @@
 import 'package:flutter/material.dart';
 
-class OperarioMaquinariaScreen extends StatelessWidget {
-  const OperarioMaquinariaScreen({super.key});
+class JefeEstadoGeneralScreen extends StatelessWidget {
+  const JefeEstadoGeneralScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de Maquinarias'),
+        title: const Text('Estado General de Operaciones'),
         backgroundColor: const Color.fromARGB(255, 38, 50, 56),
       ),
       body: Stack(
         children: [
-          // Imagen de fondo con fallback
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/maquinaria.jpg',
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey.shade800,
-                  child: const Center(
-                    child: Icon(Icons.broken_image, color: Colors.white54, size: 80),
-                  ),
-                );
-              },
-            ),
+          Image.asset(
+            'assets/images/maquinaria.jpg',
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
-          Container(
-            color: Colors.black.withOpacity(0.4),
-          ),
+          Container(color: Colors.black.withOpacity(0.4)),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'MAQUINARIAS DISPONIBLES',
+                  'ESTADO GENERAL',
                   style: TextStyle(
                     color: Colors.amber,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 8),
                 const Text(
-                  'Consulta las maquinarias disponibles para tu uso:',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
+                  'Visualiza el estado operativo global de todas las maquinarias y turnos:',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 const SizedBox(height: 20),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: 6,
-                    itemBuilder: (context, index) {
+                  child: ListView(
+                    children: List.generate(6, (index) {
                       return Card(
                         color: Colors.white.withOpacity(0.9),
                         margin: const EdgeInsets.symmetric(vertical: 8),
@@ -72,7 +57,7 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                             ),
                           ),
                           subtitle: const Text(
-                            'Estado: Disponible',
+                            'Estado operativo: Activo',
                             style: TextStyle(color: Colors.black54),
                           ),
                           trailing: IconButton(
@@ -81,8 +66,8 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (_) => AlertDialog(
-                                  title: const Text('Detalle de Maquinaria'),
-                                  content: Text('Información de la Maquinaria ${index + 1}.'),
+                                  title: const Text('Detalle de Estado'),
+                                  content: Text('Información detallada de Maquinaria ${index + 1}.'),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),
@@ -95,9 +80,9 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                           ),
                         ),
                       );
-                    },
+                    }),
                   ),
-                ),
+                )
               ],
             ),
           ),

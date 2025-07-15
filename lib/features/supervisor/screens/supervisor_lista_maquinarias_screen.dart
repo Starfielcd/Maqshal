@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class OperarioMaquinariaScreen extends StatelessWidget {
-  const OperarioMaquinariaScreen({super.key});
+class SupervisorListaMaquinariasScreen extends StatelessWidget {
+  const SupervisorListaMaquinariasScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,31 +12,26 @@ class OperarioMaquinariaScreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // Imagen de fondo con fallback
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/maquinaria.jpg',
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey.shade800,
-                  child: const Center(
-                    child: Icon(Icons.broken_image, color: Colors.white54, size: 80),
-                  ),
-                );
-              },
-            ),
+          // Imagen de fondo
+          Image.asset(
+            'assets/images/maquinaria.jpg',
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
+
+          // Capa oscura para legibilidad
           Container(
             color: Colors.black.withOpacity(0.4),
           ),
+
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'MAQUINARIAS DISPONIBLES',
+                  'LISTA DE MAQUINARIAS',
                   style: TextStyle(
                     color: Colors.amber,
                     fontSize: 24,
@@ -45,16 +40,18 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Consulta las maquinarias disponibles para tu uso:',
+                  'Consulta la información completa de cada maquinaria disponible en la operación:',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 20),
+
+                // Lista simulada de maquinarias
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 6,
+                    itemCount: 8,
                     itemBuilder: (context, index) {
                       return Card(
                         color: Colors.white.withOpacity(0.9),
@@ -63,7 +60,7 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: ListTile(
-                          leading: const Icon(Icons.precision_manufacturing, color: Colors.black),
+                          leading: const Icon(Icons.construction, color: Colors.black),
                           title: Text(
                             'Maquinaria ${index + 1}',
                             style: const TextStyle(
@@ -71,9 +68,12 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                               color: Colors.black,
                             ),
                           ),
-                          subtitle: const Text(
-                            'Estado: Disponible',
-                            style: TextStyle(color: Colors.black54),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text('Estado: Operativa', style: TextStyle(color: Colors.black54)),
+                              Text('Ubicación: Zona A', style: TextStyle(color: Colors.black54)),
+                            ],
                           ),
                           trailing: IconButton(
                             icon: const Icon(Icons.info_outline, color: Colors.black),
@@ -81,8 +81,10 @@ class OperarioMaquinariaScreen extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (_) => AlertDialog(
-                                  title: const Text('Detalle de Maquinaria'),
-                                  content: Text('Información de la Maquinaria ${index + 1}.'),
+                                  title: const Text('Detalles de Maquinaria'),
+                                  content: const Text(
+                                    'Información técnica, historial de uso y mantenimiento programado.',
+                                  ),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),

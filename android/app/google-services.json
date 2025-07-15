@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "995158202439",
+    "project_id": "maqcshalminecontrol",
+    "storage_bucket": "maqcshalminecontrol.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995158202439:android:f8ac2ec8dc2880b65f3962",
+        "android_client_info": {
+          "package_name": "com.example.intento3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO5TeL-hPFlqxKws8IhA1nAey3clbO2b4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
