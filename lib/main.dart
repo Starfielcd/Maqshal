@@ -16,6 +16,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,  // Este archivo debe estar generado
   );
 
+
   // Inicia la aplicación una vez Firebase esté inicializado
   runApp(const MyApp());
 }
